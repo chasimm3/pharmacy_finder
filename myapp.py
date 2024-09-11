@@ -16,11 +16,11 @@ st.write("""
 with st.form("my_form"):
     col1, col2 = st.columns(2)
     with col1:
-        postcode = st.text_input(label="Enter postcode")
+        postcode = st.text_input(label="Enter Postcode")
     with col2:
         search_radius = st.text_input(label="Enter Search Radius")
         
-    submitted = st.form_submit_button("Submit")
+    submitted = st.form_submit_button("Search")
     
     # if the boxes are populated, run the nearby search for the postcode and search radius, then display the dataframe in a table
     if submitted:
