@@ -5,7 +5,7 @@ from nearby_search import nearby_search
                
 st.write("""
 # Meet Hot Pharmacists in your Area!
-#### The website putting **YOU** in touch with hot, available pharmacists in your area!!
+#### The website putting ***YOU*** in touch with hot, available pharmacists in your area!!
 
 """)
 
