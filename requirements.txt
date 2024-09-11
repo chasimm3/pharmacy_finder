@@ -1,0 +1,6 @@
+streamlit
+pandas
+bs4
+geopy.geocoders
+geopy.distance
+geopy.geocoders
