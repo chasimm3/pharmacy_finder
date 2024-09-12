@@ -29,7 +29,7 @@ with st.form("my_form"):
                 data = nearby_search(postcode, radius=search_radius, 
                             API_KEY="AIzaSyCipnwTT73UZGNvt5nGNIfHgTggEaEkKPw",
                             COUNTRY="UK")
-                st.dataframe(data, hide_index=True, use_container_width=True, column_config={"Number": st.column_config.LinkColumn()})
+                st.dataframe(data, hide_index=True, use_container_width=True)#, column_config={"Number": st.column_config.LinkColumn()})
             else:
                 nearby_search(postcode, radius=0, 
                             API_KEY="AIzaSyCipnwTT73UZGNvt5nGNIfHgTggEaEkKPw",
