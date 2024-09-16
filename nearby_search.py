@@ -9,21 +9,35 @@ from phone_number import populate_phone_numbers
 
 
 def nearby_search(postcode, radius, API_KEY, COUNTRY):
-    
     try:
         lat, long = get_lat_long(postcode)
     except:
         lat, long = '51.467590', '-3.195243'
     pharmacies = search_pharmacies(lat, long, radius, API_KEY)    
     if 'results' in pharmacies:
-        origin = (lat, long)
-        pharmacy_list = filter_pharmacies(pharmacies, origin)      
-                    
-        # convert dict to dataframe then sort by distance 
-        df = pd.DataFrame(pharmacy_list)
-        pharmacy_list = df.sort_values('Distance (m)')
-        pharmacies = populate_phone_numbers(COUNTRY, pharmacy_list)
-        return(pharmacies)
+        try:
+            origin = (lat, long)
+            pharmacy_list = filter_pharmacies(pharmacies, origin)      
+                        
+            # convert dict to dataframe then sort by distance 
+            df = pd.DataFrame(pharmacy_list)
+            pharmacy_list = df.sort_values('Distance (m)')
+            pharmacies = populate_phone_numbers(COUNTRY, pharmacy_list)
+            # flag possible duplicates
+            # gather known and unknown into 2 seperate dataframes
+            unknown_number = pharmacies.loc[pharmacies['Number'] == "Unknown"]
+            known_number = pharmacies.loc[pharmacies['Number'] != "Unknown"]
+            
+            # drop duplicates from known number pharmacies
+            filtered_df = known_number.sort_values(['Pharmacy', 'Number'], ascending=[True, False]).drop_duplicates('Pharmacy').sort_index()
+            # build group of dataframes
+            frames = [unknown_number, filtered_df]
+            # join filtered dataframe and unknown numbers and sort by distance
+            pharmacies = pd.concat(frames).sort_values('Distance (m)')
+            return(pharmacies)
+        except:
+            empty_df = pd.DataFrame()
+            return(empty_df)
     else:
         print("No pharmacies found.")
     
